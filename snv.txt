@@ -1,0 +1,32 @@
+#if (!require("BiocManager"))
+#    install.packages("BiocManager")
+#BiocManager::install("maftools")
+##preMaf <- read.table("D:/YYYwork/11.maftools/input.maf", sep="\t", header = T, stringsAsFactors = F,quote="")
+
+load("F:/LUADwork/10.mutDownload/maf.Rdata")
+#objects <- ls()
+
+
+
+preMaf <- snv_data@data
+
+
+setwd("F:\\LUADwork\\11.maftools")  
+
+library(maftools)
+
+
+#??ȡͻ???????ļ?
+geneRT=read.table("139-gene.txt", header=T, sep="\t", check.names=F, row.names=1)
+gene=row.names(geneRT)
+
+laml<-preMaf[preMaf$Hugo_Symbol %in% gene,]
+
+library(maftools)       #???ð?
+#???ù???Ŀ¼
+
+#?????ٲ?ͼ
+pdf(file="oncoplot.pdf", width=8, height=7.5)
+maf=read.maf(maf=laml)
+oncoplot(maf=maf, fontSize=0.5, draw_titv=T, top=10)
+dev.off()
